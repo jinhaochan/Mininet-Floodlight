@@ -34,13 +34,15 @@ Edit your `snort.conf` accoringly to remove any preprocessors you don't have
 
 If you're having trouble, `sudo find / -type f -name snort.conf`
 
-## Mirroring Port h4 to h5
+Adding a rule in `snort.conf` to catch DoS by ICMP packets
 
+`alert icmp any any -> any any (threshold: type both, track by_dst, count 70, seconds 10; msg: "DoS by ICMP detected"; sid:1001;)`
+
+## Mirroring Port h4 to h5
 
 `s1 ovs-vsctl -- set Bridge "s1" mirrors=@m -- --id=@s1-eth4 get Port s1-eth4 -- --id=@s1-eth5 get Port s1-eth5 -- --id=@m create Mirror name=e4toe5 select-dst-port=@s1-eth4 output-port=@s1-eth5`
 
 ## Running Snort on h5
-
 
 `mininet> xterm h5`
 
@@ -51,3 +53,9 @@ In the new terminal
 `snort -i <adapter name> -v -c <snort.conf location> &`
 
 h5 is now sniffing traffic on h4
+
+## Starting the attack
+
+`mininet> h1 ping -f h4`
+
+You should see in your `/var/log/snort/alert` the message `"DoS by ICMP detected"`
