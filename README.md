@@ -1,23 +1,40 @@
-# Mininet-Floodlight
+# Mininet-Floodlight-Snort
 Networking Project
 
-Setup an SDN network with 5 hosts, with host 5 sniffing traffic on host 4.
+Setup an SDN network with 5 hosts, with host 5 sniffing traffic on host 4 using Snort.
 
 Floodlight is the SDN controller.
 
 ## Setting up floodlight
 
+Follow instructions here:
 
-In Progress
+https://floodlight.atlassian.net/wiki/spaces/floodlightcontroller/pages/1343544/Installation+Guide
+
+Floodlight GUI will be running on http://localhost:8080/ui/pages/index.html
+
 
 ## Setting up mininet
 
+Clone and install:
+
+```
+$ git clone git://github.com/mininet/mininet
+$ cd mininet
+$ sudo ./util/install.sh -a
+```
+
+Mininet is now installed.
+
+Spawn your network with the command:
 
 `sudo mn --topo single,5 --controller=remote,ip=127.0.0.1,port=6653`
 
 Spawns a single layer network, with 5 hosts connected to a switch.
 
 The switch is connected to a remote controller, which is the floodlight service you setup earlier.
+
+*Note: your port specified in this command should be `6653` and not `8080`. `8080` is used for showing the UI, `6653` is used for communicating with your switch.*
 
 If your floodlight service is running on another machine, configure the `ip` and `port` accordingly.
 
