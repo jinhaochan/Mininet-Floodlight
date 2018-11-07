@@ -1,9 +1,12 @@
 # Mininet-Floodlight-Snort
-Networking Project
+A small networking Project
 
 Setup an SDN network with 5 hosts, with host 5 sniffing traffic on host 4 using Snort.
 
-Floodlight is the SDN controller.
+This project will have 3 malicious actors (h1 h2, h3), a victim machine (h4) and an IDS using Snort sniffer (h5)
+
+We will configure the network such that the 5 hosts are connected to the a switch, and the switch is connected to Floodlight SDN Controller. h1, h2 and h3 will attack h4 with a DoS attack, and h5 will be able to pick it up using Snort rules.
+
 
 ## Setting up floodlight
 
@@ -104,7 +107,6 @@ $ snort -V
 ```
 
 After Snort is up and running, you will need to create directory structures for it
-
 ```
 $ mkdir /etc/snort
 $ mkdir /etc/snort/preproc_rules
@@ -119,8 +121,6 @@ $ chmod -R 5775 /var/log/snort/
 $ chmod -R 5775 /usr/local/lib/snort
 ```
 
-In Progress
-
 ## Configuring Snort Rules
 
 Download Snort rules here https://www.snort.org/downloads
@@ -133,15 +133,16 @@ Adding a rule in `snort.conf` to catch DoS by ICMP packets
 
 `alert icmp any any -> any any (threshold: type both, track by_dst, count 70, seconds 10; msg: "DoS by ICMP detected"; sid:1001;)`
 
-## Mirroring Port h4 to h5
+## Mirroring port h4 to h5 and sniff using Snort
 
+Command to mirror h4 traffic to h5
 `s1 ovs-vsctl -- set Bridge "s1" mirrors=@m -- --id=@s1-eth4 get Port s1-eth4 -- --id=@s1-eth5 get Port s1-eth5 -- --id=@m create Mirror name=e4toe5 select-dst-port=@s1-eth4 output-port=@s1-eth5`
 
-## Running Snort on h5
+Now all traffic that is flowing into h4 will be mirrored onto h5, where Snort is running.
 
 `mininet> xterm h5`
 
-In the new terminal
+In the new terminal spawned for h5, run:
 
 `ifconfig` to get the adapter name
 
