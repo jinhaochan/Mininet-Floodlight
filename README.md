@@ -1,6 +1,10 @@
 # Mininet-Floodlight
 Networking Project
 
+Setup an SDN network with 5 hosts, with host 5 sniffing traffic on host 4.
+
+Floodlight is the SDN controller.
+
 ## Setting up floodlight
 
 
@@ -22,6 +26,13 @@ If your floodlight service is running on another machine, configure the `ip` and
 
 In Progress
 
+## Configuring Snort Rules
+
+Download Snort rules here https://www.snort.org/downloads
+
+Edit your `snort.conf` accoringly to remove any preprocessors you don't have
+
+If you're having trouble, `sudo find / -type f -name snort.conf`
 
 ## Mirroring Port h4 to h5
 
@@ -37,6 +48,6 @@ In the new terminal
 
 `ifconfig` to get the adapter name
 
-`snort -i <adapter name>`
+`snort -i <adapter name> -v -c <snort.conf location> &`
 
-Essentially sniffing traffic on h4
+h5 is now sniffing traffic on h4
