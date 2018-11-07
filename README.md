@@ -31,7 +31,7 @@ Mininet is now installed.
 
 Spawn your network with the command:
 
-`sudo mn --topo single,5 --controller=remote,ip=127.0.0.1,port=6653`
+`$ sudo mn --topo single,5 --controller=remote,ip=127.0.0.1,port=6653`
 
 Spawns a single layer network, with 5 hosts connected to a switch.
 
@@ -52,9 +52,7 @@ $ apt-get upgrade -y
 ```
 
 Installing dependencies
-```
-$ apt-get install openssh-server ethtool build-essential libpcap-dev libpcre3-dev libdumbnet-dev bison flex zlib1g-dev liblzma-dev openssl libssl-dev
-```
+`$ apt-get install openssh-server ethtool build-essential libpcap-dev libpcre3-dev libdumbnet-dev bison flex zlib1g-dev liblzma-dev openssl libssl-dev`
 
 Grabbing DAQ source (Change the value of the version to the lastest one)
 ```
@@ -127,7 +125,7 @@ Download Snort rules here https://www.snort.org/downloads
 
 Edit your `snort.conf` accoringly to remove any preprocessors you don't have
 
-If you're having trouble, `sudo find / -type f -name snort.conf`
+If you're having trouble, `$ sudo find / -type f -name snort.conf`
 
 Adding a rule in `snort.conf` to catch DoS by ICMP packets
 
@@ -136,7 +134,7 @@ Adding a rule in `snort.conf` to catch DoS by ICMP packets
 ## Mirroring port h4 to h5 and sniff using Snort
 
 Command to mirror h4 traffic to h5
-`s1 ovs-vsctl -- set Bridge "s1" mirrors=@m -- --id=@s1-eth4 get Port s1-eth4 -- --id=@s1-eth5 get Port s1-eth5 -- --id=@m create Mirror name=e4toe5 select-dst-port=@s1-eth4 output-port=@s1-eth5`
+`mininet> s1 ovs-vsctl -- set Bridge "s1" mirrors=@m -- --id=@s1-eth4 get Port s1-eth4 -- --id=@s1-eth5 get Port s1-eth5 -- --id=@m create Mirror name=e4toe5 select-dst-port=@s1-eth4 output-port=@s1-eth5`
 
 Now all traffic that is flowing into h4 will be mirrored onto h5, where Snort is running.
 
@@ -144,9 +142,9 @@ Now all traffic that is flowing into h4 will be mirrored onto h5, where Snort is
 
 In the new terminal spawned for h5, run:
 
-`ifconfig` to get the adapter name
+`h5> ifconfig` to get the adapter name
 
-`snort -i <adapter name> -v -c <snort.conf location> &`
+`h5> snort -i <adapter name> -v -c <snort.conf location> &`
 
 h5 is now sniffing traffic on h4
 
