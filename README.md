@@ -3,7 +3,7 @@ A small networking Project
 
 Setup an SDN network with 5 hosts, with host 5 sniffing traffic on host 4 using Snort.
 
-This project will have 3 malicious actors (h1 h2, h3), a victim machine (h4) and an IDS using Snort sniffer (h5)
+This project will have 3 malicious actors (h1, h2, h3), a victim machine (h4) and an IDS using Snort sniffer (h5)
 
 We will configure the network such that the 5 hosts are connected to the a switch, and the switch is connected to Floodlight SDN Controller. h1, h2 and h3 will attack h4 with a DoS attack, and h5 will be able to pick it up using Snort rules.
 
